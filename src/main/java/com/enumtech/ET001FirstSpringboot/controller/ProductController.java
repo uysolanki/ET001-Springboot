@@ -1,6 +1,12 @@
 package com.enumtech.ET001FirstSpringboot.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.enumtech.ET001FirstSpringboot.entity.Product;
+import com.enumtech.ET001FirstSpringboot.exception.ProductNotFoundException;
+import com.enumtech.ET001FirstSpringboot.response.ErrorResponse;
 import com.enumtech.ET001FirstSpringboot.service.ProductService;
 
 @RestController
@@ -67,6 +75,8 @@ public class ProductController {
 				.category(category)
 				.image(image)
 				.build();
+		
+		System.out.println("TO Full Stack Deve");
 		return productService.addProduct(product);
 		//return "test";
 	}
@@ -116,6 +126,35 @@ public class ProductController {
 	public Product addProductByRequestBody(@RequestBody Product product)		
 	{
 		return productService.addProduct(product);
+	}
+	
+	@PostMapping("/addMultipleProductByRequestBody")
+	public List<Product> addMultipleProductByRequestBody(@RequestBody List<Product> products)		
+	{
+		return productService.addMultipleProductByRequestBody(products);
+	}
+	
+	@GetMapping("/getAllProducts")
+	public ResponseEntity<List<Product>> getAllProducts()		
+	{
+		List<Product> allProd=productService.getAllProducts();
+		return new ResponseEntity<List<Product>>(allProd,HttpStatus.OK);
+	}
+	
+	@GetMapping("/getProduct/{pid}")
+	public ResponseEntity<?> getProduct(@PathVariable int pid)		
+	{
+		Product product=null;
+		try
+		{
+			product=productService.getProduct(pid);
+		}
+		catch(ProductNotFoundException ex1)
+		{
+			return new ResponseEntity<ErrorResponse> (new ErrorResponse(ex1.getMessage(),HttpStatus.BAD_REQUEST.value(),false),HttpStatus.BAD_REQUEST);
+		}
+		
+		return new ResponseEntity<Product>(product,HttpStatus.OK);
 	}
 }
 
