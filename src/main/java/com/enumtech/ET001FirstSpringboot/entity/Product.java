@@ -35,9 +35,3 @@ public class Product {
     @JoinColumn(name = "rid",referencedColumnName = "rid")
     public Rating rating;
 }
-<<<<<<< Updated upstream
-=======
-
-//test
-//new comment
->>>>>>> Stashed changes
