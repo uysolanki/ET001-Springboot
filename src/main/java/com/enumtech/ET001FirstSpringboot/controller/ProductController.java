@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.enumtech.ET001FirstSpringboot.dto.ProductRequestDTO;
+import com.enumtech.ET001FirstSpringboot.dto.ProductResponseDTO;
 import com.enumtech.ET001FirstSpringboot.entity.Product;
 import com.enumtech.ET001FirstSpringboot.exception.ProductNotFoundException;
 import com.enumtech.ET001FirstSpringboot.response.ErrorResponse;
@@ -126,6 +128,13 @@ public class ProductController {
 	{
 		return productService.addProduct(product);
 	}
+	
+	@PostMapping("/addProductByDTO")
+	public ProductResponseDTO addProductByDTO(@RequestBody ProductRequestDTO productReqDTO)		
+	{
+		return productService.addProduct(productReqDTO);
+	}
+	
 	
 	@PostMapping("/addMultipleProductByRequestBody")
 	public List<Product> addMultipleProductByRequestBody(@RequestBody List<Product> products)		

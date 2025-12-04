@@ -4,9 +4,12 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.enumtech.ET001FirstSpringboot.dto.ProductRequestDTO;
+import com.enumtech.ET001FirstSpringboot.dto.ProductResponseDTO;
 import com.enumtech.ET001FirstSpringboot.entity.Product;
 import com.enumtech.ET001FirstSpringboot.exception.ProductNotFoundException;
 import com.enumtech.ET001FirstSpringboot.repository.ProductRepository;
@@ -16,6 +19,8 @@ public class ProductService {
 
 	@Autowired
 	ProductRepository productRepository;
+	@Autowired
+	ModelMapper modelMapper;
 
 	public Product addProduct(Product product) {
 		return productRepository.save(product);
@@ -43,5 +48,12 @@ public class ProductService {
 			throw new ProductNotFoundException("Product does not exist in Databse");
 		}
 		return prod;
+	}
+
+	public ProductResponseDTO addProduct(ProductRequestDTO productReqDTO) {
+        Product product = modelMapper.map(productReqDTO, Product.class);
+        Product savedProduct=productRepository.save(product);
+        return modelMapper.map(savedProduct, ProductResponseDTO.class);
+        
 	}
 }

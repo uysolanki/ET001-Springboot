@@ -1,5 +1,7 @@
 package com.enumtech.ET001FirstSpringboot.entity;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -8,6 +10,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -34,4 +38,23 @@ public class Product {
     @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name = "rid",referencedColumnName = "rid")
     public Rating rating;
+    
+    private LocalDateTime createdAt;
+	
+    private LocalDateTime modifiedAt;
+	
+	@PrePersist
+	protected void atCreation()
+	{
+		LocalDateTime now=LocalDateTime.now();
+		this.createdAt=now;
+		this.modifiedAt=now;
+	}
+	
+	@PreUpdate
+	protected void atUpdation()
+	{
+		this.modifiedAt=LocalDateTime.now();
+	}
+
 }
