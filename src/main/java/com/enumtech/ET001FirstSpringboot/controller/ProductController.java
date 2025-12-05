@@ -20,6 +20,8 @@ import com.enumtech.ET001FirstSpringboot.exception.ProductNotFoundException;
 import com.enumtech.ET001FirstSpringboot.response.ErrorResponse;
 import com.enumtech.ET001FirstSpringboot.service.ProductService;
 
+import jakarta.validation.Valid;
+
 @RestController
 public class ProductController {
 
@@ -130,7 +132,7 @@ public class ProductController {
 	}
 	
 	@PostMapping("/addProductByDTO")
-	public ProductResponseDTO addProductByDTO(@RequestBody ProductRequestDTO productReqDTO)		
+	public ProductResponseDTO addProductByDTO(@Valid @RequestBody ProductRequestDTO productReqDTO)		
 	{
 		return productService.addProduct(productReqDTO);
 	}

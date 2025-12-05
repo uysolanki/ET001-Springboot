@@ -16,7 +16,14 @@ import lombok.Setter;
 public class ProductRequestDTO {
     @NotBlank(message = "Title is required")
     private String title;
-
+    
+    /*
+    @NotBlank rejects
+    null
+	"" (empty string)
+	" " (whitespace-only string)
+     */
+    
     @Min(value = 1, message = "Price must be greater than 0")
     private double price;
 
