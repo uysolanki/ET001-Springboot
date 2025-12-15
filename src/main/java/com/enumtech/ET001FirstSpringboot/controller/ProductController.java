@@ -20,6 +20,7 @@ import com.enumtech.ET001FirstSpringboot.exception.ProductNotFoundException;
 import com.enumtech.ET001FirstSpringboot.response.ErrorResponse;
 import com.enumtech.ET001FirstSpringboot.service.ProductService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 
 @RestController
@@ -28,6 +29,7 @@ public class ProductController {
 	@Autowired
 	ProductService productService;
 	
+	@Operation(summary = "test", description = "test API")
 	@RequestMapping("/hello")
 	public Product addProduct()
 	{
@@ -62,6 +64,7 @@ public class ProductController {
 		//return "test";
 	}
 	
+	@Operation(summary = "Add product By Request Parameters", description = "Add product By Request Parameters")
 	@PostMapping("/addProductByRequestParam1")
 	public Product addProductByRequestParam1(
 			@RequestParam String title,
@@ -132,9 +135,9 @@ public class ProductController {
 	}
 	
 	@PostMapping("/addProductByDTO")
-	public ProductResponseDTO addProductByDTO(@Valid @RequestBody ProductRequestDTO productReqDTO)		
+	public ResponseEntity<ProductResponseDTO> addProductByDTO(@Valid @RequestBody ProductRequestDTO productReqDTO)		
 	{
-		return productService.addProduct(productReqDTO);
+			return new ResponseEntity<ProductResponseDTO>(productService.addProduct(productReqDTO),HttpStatus.CREATED);
 	}
 	
 	
@@ -165,6 +168,27 @@ public class ProductController {
 		}
 		
 		return new ResponseEntity<Product>(product,HttpStatus.OK);
+	}
+	
+	@GetMapping("/getProduct1/{pid}")
+	public ResponseEntity<Product> getProduct1(@PathVariable int pid)		
+	{
+		Product product=productService.getProduct(pid);
+		return new ResponseEntity<Product>(product,HttpStatus.OK);
+	}
+	
+	@GetMapping("/getProductByCategory/{category}")
+	public ResponseEntity<List<Product>> getProductByCategory(@PathVariable String category )		
+	{
+		List<Product> products=productService.getProductByCategory(category);
+		return new ResponseEntity<List<Product>>(products,HttpStatus.OK);
+	}
+	
+	@GetMapping("/getProductByPriceGreaterThan/{basePrice}")
+	public ResponseEntity<List<Product>> getProductByPriceGreaterThan(@PathVariable double basePrice)		
+	{
+		List<Product> products=productService.getProductByPriceGreaterThan(basePrice);
+		return new ResponseEntity<List<Product>>(products,HttpStatus.OK);
 	}
 }
 

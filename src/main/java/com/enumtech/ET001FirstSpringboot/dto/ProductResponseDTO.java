@@ -12,7 +12,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 public class ProductResponseDTO {
-	private int id;
     private String title;
     private double price;
     private String description;

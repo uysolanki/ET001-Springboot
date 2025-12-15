@@ -56,4 +56,12 @@ public class ProductService {
         return modelMapper.map(savedProduct, ProductResponseDTO.class);
         
 	}
+
+	public List<Product> getProductByCategory(String category) {
+		return productRepository.findByCategoryContaining(category);
+	}
+
+	public List<Product> getProductByPriceGreaterThan(double basePrice) {
+		return productRepository.findByPriceGreaterThanEqual(basePrice);
+	}
 }
