@@ -6,6 +6,9 @@ import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.enumtech.ET001FirstSpringboot.dto.ProductRequestDTO;
@@ -63,5 +66,13 @@ public class ProductService {
 
 	public List<Product> getProductByPriceGreaterThan(double basePrice) {
 		return productRepository.findByPriceGreaterThanEqual(basePrice);
+	}
+
+	public Page<Product> getProductByPagination(int pageNumber, int pageSize) {
+		return productRepository.findAll(PageRequest.of(pageNumber, pageSize));
+	}
+
+	public Page<Product> getProductBySortAndPagination(String fieldName, int pageNumber, int pageSize) {
+		return productRepository.findAll(PageRequest.of(pageNumber, pageSize).withSort(Sort.by(Sort.Direction.DESC,fieldName)));
 	}
 }

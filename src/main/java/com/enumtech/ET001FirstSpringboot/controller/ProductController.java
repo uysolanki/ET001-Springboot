@@ -3,6 +3,7 @@ package com.enumtech.ET001FirstSpringboot.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -189,6 +190,22 @@ public class ProductController {
 	{
 		List<Product> products=productService.getProductByPriceGreaterThan(basePrice);
 		return new ResponseEntity<List<Product>>(products,HttpStatus.OK);
+	}
+	
+	
+	@GetMapping("/getProductByPagination/{pageNumber}/{pageSize}")
+	public ResponseEntity<Page<Product>> getProductByPagination(@PathVariable int pageNumber, @PathVariable int pageSize)		
+	{
+		Page<Product> allProd=productService.getProductByPagination(pageNumber,pageSize);
+		return new ResponseEntity<Page<Product>>(allProd,HttpStatus.OK);
+	}
+	
+	
+	@GetMapping("/getProductBySortAndPagination/{fieldName}/{pageNumber}/{pageSize}")
+	public ResponseEntity<Page<Product>> getProductBySortAndPagination(@PathVariable String fieldName,@PathVariable int pageNumber, @PathVariable int pageSize)		
+	{
+		Page<Product> allProd=productService.getProductBySortAndPagination(fieldName,pageNumber,pageSize);
+		return new ResponseEntity<Page<Product>>(allProd,HttpStatus.OK);
 	}
 }
 
