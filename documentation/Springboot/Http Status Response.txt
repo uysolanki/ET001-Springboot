@@ -1,0 +1,25 @@
+Informational Responses (1xx)
+
+Successful Responses (2xx)
+200 OK - Success
+201 Created - used mostly with POST
+202 Accepted but not yet processed - used for async operations
+204 Success but nothing to return - used in DELETE / PUT
+
+Redirection Responses (3xx)
+
+
+Client Errors (4xx)
+400 Bad Request -  invalid syntax of the request : record not in db,malformed data in the request body
+401 UnAuthorised - Authentication Failed (bad credentials)
+403 forbidden not authorised no permission to access API
+404 endpoint not found
+405 http method mismatch
+408 Request Timeout
+
+
+Server Errors (5xx)
+500 interal server error programmer logic
+501 unimplementted HTTP method
+503 Service Unavailable
+505 HTTP Version Not Supported

@@ -1,0 +1,78 @@
+import org.springframework.security.core.Authentication;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+    @Override
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
+            throws IOException {
+        // Get the roles/authorities of the authenticated user
+        authentication.getAuthorities().forEach(grantedAuthority -> {
+            if (grantedAuthority.getAuthority().equals("ADMIN")) {
+                try {
+                    response.sendRedirect("/blinkit/v1/adminDashboard"); // Redirect to admin dashboard
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else if (grantedAuthority.getAuthority().equals("USER")) {
+                try {
+                    response.sendRedirect("/blinkit/v1/userDashboard"); // Redirect to user dashboard
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+}
+
+
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+            .authorizeRequests()
+                .antMatchers("/blinkit/v1/homepage", "/blinkit/v1/register", "/blinkit/v1/403")
+                .hasAnyAuthority("USER", "ADMIN")
+                .antMatchers("/blinkit/v1/updateCustomerForm/**", "/blinkit/v1/deleteCustomer/**")
+                .hasAuthority("ADMIN")
+                .anyRequest().authenticated()
+                .and()
+            .formLogin()
+                .loginProcessingUrl("/login")
+                .successHandler(new CustomAuthenticationSuccessHandler())  // Use custom success handler
+                .permitAll()
+                .and()
+            .logout()
+                .logoutSuccessUrl("/login")
+                .permitAll()
+                .and()
+            .exceptionHandling()
+                .accessDeniedPage("/blinkit/v1/403")
+                .and()
+            .cors().and().csrf().disable();
+    }
+}
+
+
+
+@RestController
+@RequestMapping("/blinkit/v1")
+public class DashboardController {
+
+    @GetMapping("/adminDashboard")
+    public String getAdminDashboard() {
+        // Return the admin dashboard view or data
+        return "Admin Dashboard";
+    }
+
+    @GetMapping("/userDashboard")
+    public String getUserDashboard() {
+        // Return the user dashboard view or data
+        return "User Dashboard";
+    }
+}
