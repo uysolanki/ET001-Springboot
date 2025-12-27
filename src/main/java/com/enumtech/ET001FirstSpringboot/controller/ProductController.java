@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -206,6 +208,22 @@ public class ProductController {
 	{
 		Page<Product> allProd=productService.getProductBySortAndPagination(fieldName,pageNumber,pageSize);
 		return new ResponseEntity<Page<Product>>(allProd,HttpStatus.OK);
+	}
+	
+	
+	@DeleteMapping("/delete-product/{pid}")
+	public ResponseEntity<String> deleteProduct(@PathVariable int pid)		
+	{
+		productService.deleteProduct(pid);
+		return new ResponseEntity<String>("Product with ID "+pid+ " deleted Succssfully",HttpStatus.OK);
+	}
+	
+	
+	@PutMapping("/update-product/{pid}")
+	public ResponseEntity<Product> updateProduct(@PathVariable int pid, @RequestBody Product newValues)		
+	{
+		Product product=productService.updateProduct(pid,newValues);
+		return new ResponseEntity<Product>(product,HttpStatus.OK);
 	}
 }
 
