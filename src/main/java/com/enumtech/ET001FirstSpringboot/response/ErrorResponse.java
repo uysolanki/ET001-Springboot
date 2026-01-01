@@ -1,6 +1,5 @@
 package com.enumtech.ET001FirstSpringboot.response;
 
-import org.springframework.http.HttpStatusCode;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

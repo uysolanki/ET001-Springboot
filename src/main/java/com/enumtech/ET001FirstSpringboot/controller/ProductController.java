@@ -2,6 +2,8 @@ package com.enumtech.ET001FirstSpringboot.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -24,7 +26,7 @@ import com.enumtech.ET001FirstSpringboot.response.ErrorResponse;
 import com.enumtech.ET001FirstSpringboot.service.ProductService;
 
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.validation.Valid;
+
 
 @RestController
 public class ProductController {
