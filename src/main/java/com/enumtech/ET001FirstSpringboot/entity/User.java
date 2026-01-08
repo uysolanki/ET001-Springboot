@@ -1,5 +1,6 @@
 package com.enumtech.ET001FirstSpringboot.entity;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -11,7 +12,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -41,5 +41,13 @@ public class User {
 			inverseJoinColumns = @JoinColumn(name="fkroleid")
 			)
 	List<Role> roles;
+	
+	private LocalDate accountExpiryDate;
 
+	private int accountLockedStatus;  //1 - open(default) 0-locked
+
+	private LocalDate credentialsExpiryDate;
+	
+	private int enabledStatus;    	//1 - enabled(default) 0-disable
+	
 }

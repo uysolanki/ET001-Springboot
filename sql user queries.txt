@@ -1,0 +1,10 @@
+INSERT INTO `et001springbootdb-local`.`user` (
+`userid` ,
+`password` ,
+`username`
+)
+VALUES (
+NULL , '$2a$12$0VeXnxGxPyMv1WmiOnpi.uPiiIyhlcqgv3qQN7xsBxsuwcRSSeRxe', 'jetha@ge.com'
+), (
+NULL , '$2a$12$/8Eel4gXoBg7ikFQBLmhCuEzaN3W8PzEuhfkmLUeYTbG3QBw/ptMu', 'bagha@ge.com'
+);
